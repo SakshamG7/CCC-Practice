@@ -4,6 +4,9 @@ o = list(map(int, input().split(" ")))
 imp = True
 ex = False
 
+if a == o:
+    print("YES\n0", end="")
+    ex = True
 com = []
 
 """
@@ -18,27 +21,55 @@ N = len(a)
 2 1 1 2 1 1 1 1
 """
 
-if a == o:
-    print("YES\n0",end="")
-    ex = True
+
+def recall(arr: list, K: int, ins: str):
+    global com
+    # print(arr)
+    add = True
+    index = 0
+    for i in com:
+        if arr == i:
+            add = False
+            break
+        index += 1
+    if add:
+        com.append([arr.copy(), set()])
+        index = len(com) - 1
+    for i in range(N):
+        for j in range(i, N):
+            if i == j:
+                continue
+            if j > i:
+                c = len(com[index][1])
+                rS = f"\nR {i} {j}"
+                com[index][1].add(rS)
+
+                c2 = len(com[index][1])
+                if c2 - c != 0:
+                    c = c2
+                    swipes(arr.copy(), K + 1, ins + rS)
+
+                lS = f"\nL {j} {i}"
+                com[index][1].add(rS)
+
+                c2 = len(com[index][1])
+                if c2 - c != 0:
+                    swipes(arr.copy(), K + 1, ins + lS)
+            else:
+                continue
+
 
 def swipes(arr: list, K: int, ins: str):
     global a, imp
-    if K > N + 1:
+    arrC = arr.copy()
+    if K > N:
         return
     elif K == 0:
-        for i in range(N):
-            for j in range(N):
-                if i == j:
-                    continue
-                elif i < j:
-                    swipes(arr.copy(), K + 1, ins + f"\nR {i} {j}")
-                else:
-                    swipes(arr.copy(), K + 1, ins + f"\nL {i} {j}")
+        recall(arr, K, ins)
         return
     if a == o:
         return
-    
+
     insList = ins.split("\n")
     curIns = insList[-1].split(" ")
     c = curIns[0]
@@ -51,24 +82,16 @@ def swipes(arr: list, K: int, ins: str):
         for i in range(r, l):
             arr[i] = arr[i + 1]
 
-    if (arr in com):
+    if arr == arrC:
         return
-    com.append(arr.copy())
 
     if arr == o:
         a = arr
         imp = False
         print("YES\n" + str(K) + ins, end="")
         return
+    recall(arr, K, ins)
 
-    for i in range(N):
-        for j in range(N):
-            if i == j:
-                continue
-            elif i < j:
-                swipes(arr.copy(), K + 1, ins + f"\nR {i} {j}")
-            else:
-                swipes(arr.copy(), K + 1, ins + f"\nL {i} {j}")
 
 if not ex:
     swipes(a.copy(), 0, "")
