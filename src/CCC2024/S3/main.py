@@ -29,6 +29,8 @@ N = len(a)
 
 
 def pivotCheck(arr: list, a: int, b:int):
+    for x in range(o):
+        for y in range(a)
 
 
 
@@ -85,18 +87,18 @@ def swipes(arr: list, K: int, ins: str):
     insList = ins.split("\n")
     curIns = insList[-1].split(" ")
     c = curIns[0]
-    a = int(curIns[1])
+    a_ = int(curIns[1])
     b = int(curIns[2])
     if c == "R":
-        # print(arr, a, b)
-        for i in range(a + 1, b + 1):
+        # print(arr, a_, b)
+        for i in range(a_ + 1, b + 1):
             arr[i] = arr[i - 1]
-        # print(arr, a, b, "\n")
+        # print(arr, a_, b, "\n")
     elif c == "L":
-        # print(arr, a, b)
+        # print(arr, a_, b)
         for i in range(b, a):
-            arr[i] = arr[a]
-        # print(arr, a, b, "\n")
+            arr[i] = arr[a_]
+        # print(arr, a_, b, "\n")
 
     if arr == arrC:
         return
