@@ -36,7 +36,6 @@ def pivotCheck(arr: list):
                 break
             elif y == N - 1:
                 return False
-
     return True
 
 
