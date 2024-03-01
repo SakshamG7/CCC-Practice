@@ -1,14 +1,3 @@
-N = int(input())
-a = list(map(int, input().split(" ")))
-o = list(map(int, input().split(" ")))
-imp = True
-ex = False
-
-if a == o:
-    print("YES\n0", end="")
-    ex = True
-com = []
-
 """
 3
 3 1 2
@@ -24,14 +13,83 @@ N = len(a)
 2 1 1 1 1 1 2 1 L
 2 1 1 2 2 2 2 1 L
 2 1 1 2 1 1 1 1 L
+YES
+4
+L 4 0
+L 5 1
+L 6 3
+L 7 4
 """
 
+# N = int(input())
+# a = list(map(int, input().split(" ")))
+# o = list(map(int, input().split(" ")))
+N = 8
+a = [1, 1, 1, 1, 2, 1, 2, 1]
+o = [2, 1, 1, 2, 1, 1, 1, 1]
+N = 3
+a = [3, 1, 2]
+o = [3, 1, 1]
+print(N, a, o, sep="\n")
+imp = True
+ex = False
 
-def pivotCheck(arr: list):
+if a == o:
+    print("YES\n0", end="")
+    ex = True
+com = []
+
+cO = [o[0]]
+cOIndex = [0]
+for i in range(N):
+    if o[i] != cO[-1]:
+        cO.append(o[i])
+        cOIndex.append(i)
+
+
+def pivotSolve(arr: list):
+    if pivotCheck(arr) is False:
+        print("NO")
+        return
+    k = 0
+    ins = []
+
+    # compress arr
+    cArr = [arr[0]]
+    cArrIndex = [0]
+    for i in range(len(arr)):
+        if arr[i] != cArr[-1]:
+            cArr.append(arr[i])
+            cArrIndex.append(i)
+
     index = 0
-    for x in range(N):
+    index2 = len(cArr)
+    for x in range(len(o)):
+        for y in range(index, len(cArr)):
+            if o[x] == cArr[y]:
+                index = y
+                if x < cArrIndex[y]:
+                    ins.append(f"L {cArrIndex[y]} {x}")
+                    k += 1
+                elif x > cArrIndex[y]:
+                    ins.append(f"R {cArrIndex[y]} {x}")
+                    k += 1
+                break
+            elif y == N - 1:
+                return False
+
+    print("YES", k, sep="\n")
+    for i in ins:
+        print(i)
+
+    return k, ins
+
+
+def pivotCheck(arr: list) -> bool:
+    index = 0
+    for x in range(len(cO)):
         for y in range(index, N):
-            if o[x] == arr[y]:
+            if cO[x] == arr[y]:
                 index = y
                 break
             elif y == N - 1:
@@ -112,8 +170,7 @@ def swipes(arr: list, K: int, ins: list):
 
 
 if not ex:
-    swipes(a.copy(), 0, [])
-    if imp:
-        print("NO")
-        # if (a, o) != ([1, 2], [2, 1]):
-        #     print(ao, o)
+    # swipes(a.copy(), 0, [])
+    pivotSolve(a.copy())
+    # if imp:
+    #     print("NO")
