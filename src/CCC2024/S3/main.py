@@ -34,6 +34,9 @@ def pivotCheck(arr: list):
         for y in range(index, N):
             if o[x] == arr[y]:
                 index = y
+                break
+            elif y == N - 1:
+                return False
 
     return True
 
