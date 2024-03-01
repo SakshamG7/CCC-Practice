@@ -28,14 +28,24 @@ N = len(a)
 """
 
 
-def pivotCheck(arr: list, a: int, b:int):
-    for x in range(o):
-        for y in range(a)
+def pivotCheck(arr: list):
+    index = 0
+    for x in range(N):
+        for y in range(index, N):
+            if o[x] == arr[y]:
+                index = y
 
+    return True
+
+
+print(pivotCheck(a))
 
 
 def recall(arr: list, K: int, ins: str):
     global com
+
+    if pivotCheck(arr) is False:
+        return
 
     sArr = set(arr)
     for i in sO:
@@ -96,7 +106,7 @@ def swipes(arr: list, K: int, ins: str):
         # print(arr, a_, b, "\n")
     elif c == "L":
         # print(arr, a_, b)
-        for i in range(b, a):
+        for i in range(b, a_):
             arr[i] = arr[a_]
         # print(arr, a_, b, "\n")
 
