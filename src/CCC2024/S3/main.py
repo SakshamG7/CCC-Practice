@@ -26,8 +26,8 @@ L 7 4
 YES
 4
 R 0 1
-L 3 2
-L 4 3
+L 2 3
+L 3 4
 R 4 5
 """
 
@@ -79,7 +79,7 @@ def pivotSolve(arr: list):
                 index = y
                 if x < cArrIndex[y] and oldX != o[x]:
                     oldX = o[x]
-                    ins.append(f"L {cArrIndex[y]} {x}")
+                    ins.append(f"L {x} {cArrIndex[y]}")
                     k += 1
                 elif x > cArrIndex[y]:
                     ins.append(f"R {cArrIndex[y]} {x}")
