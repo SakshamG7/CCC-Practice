@@ -39,7 +39,7 @@ def pivotCheck(arr: list):
     return True
 
 
-def recall(arr: list, K: int, ins: str):
+def recall(arr: list, K: int, ins: list):
     global com
 
     if pivotCheck(arr) is False:
@@ -62,20 +62,20 @@ def recall(arr: list, K: int, ins: str):
             if i == j:
                 continue
 
-            rS = f"\nR {i} {j}"
+            rS = f"R {i} {j}"
             c = len(com[index][1])
             com[index][1].add(rS)
             if len(com[index][1]) - c != 0:
-                swipes(arr.copy(), K + 1, ins + rS)
+                swipes(arr.copy(), K + 1, ins + [rS])
 
-            lS = f"\nL {i} {j}"
+            lS = f"L {i} {j}"
             c = len(com[index][2])
             com[index][2].add(lS)
             if len(com[index][2]) - c != 0:
-                swipes(arr.copy(), K + 1, ins + lS)
+                swipes(arr.copy(), K + 1, ins + [lS])
 
 
-def swipes(arr: list, K: int, ins: str):
+def swipes(arr: list, K: int, ins: list):
     global a, imp
     arrC = arr.copy()
 
@@ -87,8 +87,7 @@ def swipes(arr: list, K: int, ins: str):
     if a == o:
         return
 
-    insList = ins.split("\n")
-    curIns = insList[-1].split(" ")
+    curIns = ins[-1].split(" ")
     c = curIns[0]
     a_ = int(curIns[1])
     b = int(curIns[2])
@@ -105,13 +104,15 @@ def swipes(arr: list, K: int, ins: str):
     if arr == o:
         a = arr
         imp = False
-        print("YES\n" + str(K) + ins, end="")
+        print("YES\n" + str(K))
+        for i in ins:
+            print(i)
         return
     recall(arr, K, ins)
 
 
 if not ex:
-    swipes(a.copy(), 0, "")
+    swipes(a.copy(), 0, [])
     if imp:
         print("NO")
         # if (a, o) != ([1, 2], [2, 1]):
