@@ -31,7 +31,7 @@ L 3 4
 R 4 5
 
 8
-7 7 1 4 3 8 3 5
+7 5 1 8 7 4 7 5
 7 7 5 5 5 5 5 5
 """
 
@@ -90,11 +90,15 @@ def pivotSolve(arr: list):
                     new = True
                     if k > 0:
                         prevIns = ins[-1].split(" ")
-                        if prevIns[0] == "R" and prevIns[1] == cArrIndex[y]:
+                        if prevIns[0] == "R" and int(prevIns[1]) == cArrIndex[y]:
                             ins[-1] = f"R {prevIns[1]} {x}"
                             new = False
                     if new:
                         ins.append(f"R {cArrIndex[y]} {x}")
+                        for a in range(len(cArrIndex)):
+                            if cArrIndex[a] == x:
+                                cArr[a] = o[x]
+                                break
                         k += 1
                 break
 
