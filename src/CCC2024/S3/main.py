@@ -35,16 +35,18 @@ R 4 5
 7 7 5 5 5 5 5 5
 """
 
-N = int(input())
-a = list(map(int, input().split(" ")))
-o = list(map(int, input().split(" ")))
+# N = int(input())
+# a = list(map(int, input().split(" ")))
+# o = list(map(int, input().split(" ")))
+N = 8
+o, a = [7, 7, 1, 4, 3, 8, 3, 1], [7, 1, 4, 4, 3, 8, 8, 1]
 # N = 8
 # a = [1, 1, 1, 1, 2, 1, 2, 1]
 # o = [2, 1, 1, 2, 1, 1, 1, 1]
 # N = 3
 # a = [3, 1, 2]
 # o = [3, 1, 1]
-# print(N, a, o, sep="\n")
+print(N, a, o, sep="\n")
 ex = False
 
 if a == o:
@@ -81,7 +83,7 @@ def pivotSolve(arr: list):
             if o[x] == cArr[y]:
                 index = y
                 # TODO: Fix the right swipe to be more efficient, similar to the left swipe
-                # fails on test case (a = [7, 5, 1, 8, 7, 4, 7, 5], o = [7, 7, 5, 5, 5, 5, 5, 5])
+                # fails on test case a = [7, 7, 1, 4, 3, 8, 3, 1], o = [7, 1, 4, 4, 3, 8, 8, 1]
                 if cArrIndex[y] > x and oldX != o[x]:
                     oldX = o[x]
                     ins.append(f"L {x} {cArrIndex[y]}")
@@ -101,6 +103,10 @@ def pivotSolve(arr: list):
                                 break
                         k += 1
                 break
+    if k > 2:
+        sol = (([7, 7, 1, 4, 3, 8, 3, 1], [7, 1, 4, 4, 3, 8, 8, 1]),)
+        if (arr, o) not in sol:
+            print((arr, o))
 
     print("YES", k, sep="\n")
     for i in range(k):
