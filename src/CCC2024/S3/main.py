@@ -29,6 +29,10 @@ R 0 1
 L 2 3
 L 3 4
 R 4 5
+
+8
+7 7 1 4 3 8 3 5
+7 7 5 5 5 5 5 5
 """
 
 N = int(input())
@@ -58,7 +62,7 @@ for i in range(N):
 
 def pivotSolve(arr: list):
     if pivotCheck(arr) is False:
-        print("NO")
+        print("NO", end="")
         return
     k = 0
     ins = []
@@ -70,29 +74,29 @@ def pivotSolve(arr: list):
         if arr[i] != cArr[-1]:
             cArr.append(arr[i])
             cArrIndex.append(i)
-
     index = 0
-    oldXL = None
-    oldXR = None
-    for x in range(len(o)):
+    oldX = None
+    for x in range(N):
         for y in range(index, len(cArr)):
             if o[x] == cArr[y]:
                 index = y
-                if x < cArrIndex[y] and oldXL != o[x]:
-                    oldXL = o[x]
-                    ins.append(f"L {x} {cArrIndex[y]}")
-                    k += 1
                 # TODO: Fix the right swipe to be more efficient, similar to the left swipe
                 # fails on test case (a = [7, 5, 1, 8, 7, 4, 7, 5], o = [7, 7, 5, 5, 5, 5, 5, 5])
-                elif x > cArrIndex[y] and oldXR != o[x]:
-                    oldXR = o[x]
-                    ins.append(f"R {cArrIndex[y]} {x}")
+                if cArrIndex[y] > x and oldX != o[x]:
+                    oldX = o[x]
+                    ins.append(f"L {x} {cArrIndex[y]}")
                     k += 1
-            break
-
-    solved = (([1, 2], [2, 2]), ([3, 2], [3, 3]), ([7, 7, 1, 4, 3, 8, 3, 1], [7, 1, 4, 4, 3, 8, 8, 1]),)
-    if (a, o) not in solved:
-        print(N, (a, o), sep="\n")
+                elif x > cArrIndex[y]:
+                    new = True
+                    if k > 0:
+                        prevIns = ins[-1].split(" ")
+                        if prevIns[0] == "R" and prevIns[1] == cArrIndex[y]:
+                            ins[-1] = f"R {prevIns[1]} {x}"
+                            new = False
+                    if new:
+                        ins.append(f"R {cArrIndex[y]} {x}")
+                        k += 1
+                break
 
     print("YES", k, sep="\n")
     for i in range(k):
