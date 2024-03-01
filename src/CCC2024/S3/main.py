@@ -1,7 +1,6 @@
 N = int(input())
 a = list(map(int, input().split(" ")))
 o = list(map(int, input().split(" ")))
-sO = set(o)
 imp = True
 ex = False
 
@@ -41,19 +40,11 @@ def pivotCheck(arr: list):
     return True
 
 
-print(pivotCheck(a))
-
-
 def recall(arr: list, K: int, ins: str):
     global com
 
     if pivotCheck(arr) is False:
         return
-
-    sArr = set(arr)
-    for i in sO:
-        if i not in sArr:
-            return
 
     # print(arr)
     add = True
@@ -66,7 +57,7 @@ def recall(arr: list, K: int, ins: str):
     if add:
         com.append([arr.copy(), set(), set()])
         index = len(com) - 1
-        # print(index)
+
     for i in range(N):
         for j in range(N):
             if i == j:
@@ -103,15 +94,11 @@ def swipes(arr: list, K: int, ins: str):
     a_ = int(curIns[1])
     b = int(curIns[2])
     if c == "R":
-        # print(arr, a_, b)
         for i in range(a_ + 1, b + 1):
             arr[i] = arr[i - 1]
-        # print(arr, a_, b, "\n")
     elif c == "L":
-        # print(arr, a_, b)
         for i in range(b, a_):
             arr[i] = arr[a_]
-        # print(arr, a_, b, "\n")
 
     if arr == arrC:
         return
