@@ -19,19 +19,28 @@ L 4 0
 L 5 1
 L 6 3
 L 7 4
+
+6
+1 2 3 4 5 6
+1 1 4 5 5 5
+YES
+4
+R 0 1
+L 3 2
+L 4 3
+R 4 5
 """
 
-# N = int(input())
-# a = list(map(int, input().split(" ")))
-# o = list(map(int, input().split(" ")))
-N = 8
-a = [1, 1, 1, 1, 2, 1, 2, 1]
-o = [2, 1, 1, 2, 1, 1, 1, 1]
-N = 3
-a = [3, 1, 2]
-o = [3, 1, 1]
-print(N, a, o, sep="\n")
-imp = True
+N = int(input())
+a = list(map(int, input().split(" ")))
+o = list(map(int, input().split(" ")))
+# N = 8
+# a = [1, 1, 1, 1, 2, 1, 2, 1]
+# o = [2, 1, 1, 2, 1, 1, 1, 1]
+# N = 3
+# a = [3, 1, 2]
+# o = [3, 1, 1]
+# print(N, a, o, sep="\n")
 ex = False
 
 if a == o:
@@ -63,24 +72,32 @@ def pivotSolve(arr: list):
             cArrIndex.append(i)
 
     index = 0
-    index2 = len(cArr)
+    oldX = None
     for x in range(len(o)):
         for y in range(index, len(cArr)):
             if o[x] == cArr[y]:
                 index = y
-                if x < cArrIndex[y]:
+                if x < cArrIndex[y] and oldX != o[x]:
+                    oldX = o[x]
                     ins.append(f"L {cArrIndex[y]} {x}")
                     k += 1
                 elif x > cArrIndex[y]:
                     ins.append(f"R {cArrIndex[y]} {x}")
                     k += 1
                 break
-            elif y == N - 1:
-                return False
+            elif y == N - 1 and x == len(o) - 1:
+                print("NO")
+                return
+
+    solved = (([1, 2], [2, 2]),)
+    # if (a, o) not in solved:
+    #     print(N, (a, o), sep="\n")
 
     print("YES", k, sep="\n")
-    for i in ins:
-        print(i)
+    for i in range(k):
+        print(ins[i], end="")
+        if i != k - 1:
+            print()
 
     return k, ins
 
@@ -97,80 +114,5 @@ def pivotCheck(arr: list) -> bool:
     return True
 
 
-def recall(arr: list, K: int, ins: list):
-    global com
-
-    if pivotCheck(arr) is False:
-        return
-
-    # print(arr)
-    add = True
-    index = 0
-    for i in com:
-        if arr == i:
-            add = False
-            break
-        index += 1
-    if add:
-        com.append([arr.copy(), set(), set()])
-        index = len(com) - 1
-
-    for i in range(N):
-        for j in range(N):
-            if i == j:
-                continue
-
-            rS = f"R {i} {j}"
-            c = len(com[index][1])
-            com[index][1].add(rS)
-            if len(com[index][1]) - c != 0:
-                swipes(arr.copy(), K + 1, ins + [rS])
-
-            lS = f"L {i} {j}"
-            c = len(com[index][2])
-            com[index][2].add(lS)
-            if len(com[index][2]) - c != 0:
-                swipes(arr.copy(), K + 1, ins + [lS])
-
-
-def swipes(arr: list, K: int, ins: list):
-    global a, imp
-    arrC = arr.copy()
-
-    if K > N:
-        return
-    elif K == 0:
-        recall(arr, K, ins)
-        return
-    if a == o:
-        return
-
-    curIns = ins[-1].split(" ")
-    c = curIns[0]
-    a_ = int(curIns[1])
-    b = int(curIns[2])
-    if c == "R":
-        for i in range(a_ + 1, b + 1):
-            arr[i] = arr[i - 1]
-    elif c == "L":
-        for i in range(b, a_):
-            arr[i] = arr[a_]
-
-    if arr == arrC:
-        return
-
-    if arr == o:
-        a = arr
-        imp = False
-        print("YES\n" + str(K))
-        for i in ins:
-            print(i)
-        return
-    recall(arr, K, ins)
-
-
 if not ex:
-    # swipes(a.copy(), 0, [])
     pivotSolve(a.copy())
-    # if imp:
-    #     print("NO")
